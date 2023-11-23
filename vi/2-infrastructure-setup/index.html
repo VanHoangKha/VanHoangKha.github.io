@@ -12,21 +12,21 @@
     <title>Chuẩn bị tài nguyên :: AWS Cognito Cross Site</title>
 
     
-    <link href="/css/nucleus.css?1700644868" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1700644868" rel="stylesheet">
-    <link href="/css/hybrid.css?1700644868" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1700644868" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1700644868" rel="stylesheet">
-    <link href="/css/auto-complete.css?1700644868" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1700644868" rel="stylesheet">
-    <link href="/css/theme.css?1700644868" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1700644868" rel="stylesheet">
+    <link href="/css/nucleus.css?1700703656" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1700703656" rel="stylesheet">
+    <link href="/css/hybrid.css?1700703656" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1700703656" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1700703656" rel="stylesheet">
+    <link href="/css/auto-complete.css?1700703656" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1700703656" rel="stylesheet">
+    <link href="/css/theme.css?1700703656" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1700703656" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1700644868" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1700703656" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1700644868"></script>
+    <script src="/js/jquery-3.3.1.min.js?1700703656"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1700644868"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1700644868"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1700703656"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1700703656"></script>
 <script type="text/javascript">
     
         var baseurl = "\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1700644868"></script>
+<script type="text/javascript" src="/js/search.js?1700703656"></script>
 
     
   </div>
@@ -134,13 +134,13 @@
  
   
     
-    <li data-nav-id="/vi/3-app-configuration/" title="Triển khai và kiểm tra Cognito Cross Sites" class="dd-item 
+    <li data-nav-id="/vi/3-note-code/" title="Giải thích code" class="dd-item 
         
         
         
         ">
-      <a href="/vi/3-app-configuration/">
-           <b> 3. </b> Triển khai và kiểm tra Cognito Cross Sites
+      <a href="/vi/3-note-code/">
+           <b> 3. </b> Giải thích code
           
             <i class="fas fa-check read-icon"></i>
           
@@ -160,13 +160,13 @@
  
   
     
-    <li data-nav-id="/vi/4-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
+    <li data-nav-id="/vi/4-app-configuration/" title="Triển khai và kiểm tra Cognito Cross Sites" class="dd-item 
         
         
         
         ">
-      <a href="/vi/4-cleanup/">
-           <b> 4. </b> Dọn dẹp tài nguyên
+      <a href="/vi/4-app-configuration/">
+           <b> 4. </b> Triển khai và kiểm tra Cognito Cross Sites
           
             <i class="fas fa-check read-icon"></i>
           
@@ -186,13 +186,39 @@
  
   
     
-    <li data-nav-id="/vi/5-useful-references/" title="Tài liệu tham khảo" class="dd-item 
+    <li data-nav-id="/vi/5-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
         
         
         
         ">
-      <a href="/vi/5-useful-references/">
-           <b> 5.  </b> Tài liệu tham khảo
+      <a href="/vi/5-cleanup/">
+           <b> 5. </b> Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/6-useful-references/" title="Tài liệu tham khảo" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/6-useful-references/">
+           <b> 6.  </b> Tài liệu tham khảo
           
             <i class="fas fa-check read-icon"></i>
           
@@ -480,52 +506,7 @@ cd cdk
 </li>
 </ol>
 <p><img src="/images/00015.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
-<h4 id="giải-thích-về-codde">Giải thích về codde:</h4>
-<ol>
-<li>Module trong package.json với cross-domain-storage để trao đổi token giữa hai trang web:</li>
-</ol>
-<pre tabindex="0"><code>&#34;dependencies&#34;: {
-    ...
-    &#34;amazon-cognito-identity-js&#34;: &#34;^5.2.9&#34;,
-    &#34;cross-domain-storage&#34;: &#34;^2.0.7&#34;,
-    ...
-}
-</code></pre><ol start="2">
-<li>Hàm signOut để vô hiệu hóa tất cả các token do Cognito cung cấp trong trường hợp người dùng đăng xuất:</li>
-</ol>
-<pre tabindex="0"><code>export function signOut(callbacks: { onSuccess: (msg: string) =&gt; void; onFailure: (err: Error) =&gt; void }) {
-  if (currentUser) {
-    //currentUser.signOut()
-    currentUser.globalSignOut(callbacks)
-  }
-}
-</code></pre><ol start="3">
-<li>Xử lý token session từ web1 sang web2 trong trường hợp đăng nhập tại web1 và token sẽ được thiết lập cho web2 với nguồn được cho phép trên web2 trong signIn.ts của web1:</li>
-</ol>
-<pre tabindex="0"><code>const handleSendToken = () =&gt; {
-  // send token
-  if(!localStorage) return
 
-  var tokenStorage = createGuest(&#39;http://localhost:3001/accessStorage&#39;);
-  Object.keys(localStorage).forEach(key =&gt; {
-    console.log(&#39;key&#39;, key);
-    tokenStorage.set(key, localStorage[key])
-  })
-}
-</code></pre><ol start="4">
-<li>Cho phép nguồn trên web2 để chấp nhận truy cập từ web1 trong App.tsx:</li>
-</ol>
-<pre tabindex="0"><code>const App: React.FunctionComponent = () =&gt; {
-  useEffect(() =&gt; {
-    createHost([
-      {
-        origin: &#34;http://localhost:3000&#34;,
-        allowedMethods: [&#34;set&#34;, &#34;remove&#34;],
-      },
-    ]);
-  }, []);
-}
-</code></pre>
 
 
 
@@ -647,6 +628,22 @@ cd cdk
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -659,7 +656,7 @@ cd cdk
 			<a class="nav nav-prev" href="/vi/1-intro/" title="Giới thiệu"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/3-app-configuration/" title="Triển khai và kiểm tra Cognito Cross Sites" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/3-note-code/" title="Giải thích code" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -669,19 +666,19 @@ cd cdk
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1700644868"></script>
-    <script src="/js/perfect-scrollbar.min.js?1700644868"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1700644868"></script>
-    <script src="/js/jquery.sticky.js?1700644868"></script>
-    <script src="/js/featherlight.min.js?1700644868"></script>
-    <script src="/js/highlight.pack.js?1700644868"></script>
+    <script src="/js/clipboard.min.js?1700703656"></script>
+    <script src="/js/perfect-scrollbar.min.js?1700703656"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1700703656"></script>
+    <script src="/js/jquery.sticky.js?1700703656"></script>
+    <script src="/js/featherlight.min.js?1700703656"></script>
+    <script src="/js/highlight.pack.js?1700703656"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1700644868"></script>
-    <script src="/js/learn.js?1700644868"></script>
-    <script src="/js/hugo-learn.js?1700644868"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1700703656"></script>
+    <script src="/js/learn.js?1700703656"></script>
+    <script src="/js/hugo-learn.js?1700703656"></script>
 
-    <link href="/mermaid/mermaid.css?1700644868" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1700644868"></script>
+    <link href="/mermaid/mermaid.css?1700703656" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1700703656"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

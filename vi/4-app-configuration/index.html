@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Triển khai AWS Cognito Cross Sites :: AWS Cognito Cross Site</title>
+    <title>Triển khai và kiểm tra Cognito Cross Sites :: AWS Cognito Cross Site</title>
 
     
     <link href="/css/nucleus.css?1700703656" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/">
+  <body class="" data-url="/vi/4-app-configuration/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -161,8 +161,8 @@
   
     
     <li data-nav-id="/vi/4-app-configuration/" title="Triển khai và kiểm tra Cognito Cross Sites" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/vi/4-app-configuration/">
@@ -267,23 +267,11 @@
               
               
                   
-                    
-                    
-                      <option id="en" value="/">English</option>
-                    
-                  
-              
-                  
-              
-          
-              
-              
-                  
               
                   
                     
                     
-                      <option id="vi" value="/vi/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/4-app-configuration/" selected>Tiếng Việt</option>
                     
                   
               
@@ -344,34 +332,146 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Triển khai AWS Cognito Cross Sites</a> > Triển khai và kiểm tra Cognito Cross Sites
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              Triển khai và kiểm tra Cognito Cross Sites
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="triển-khai-aws-cognito-cross-sites">Triển khai AWS Cognito Cross Sites</h1>
-<h4 id="giới-thiệu-cognito">Giới thiệu Cognito</h4>
-<p>Amazon Cognito là một nền tảng xác thực danh tính cho các ứng dụng web và di động. Nó bao gồm một danh bạ người dùng, một máy chủ xác thực, và một dịch vụ ủy quyền cho token truy cập OAuth 2.0 và thông tin xác thực AWS. Với Amazon Cognito, bạn có thể xác thực và ủy quyền người dùng từ danh bạ người dùng tích hợp sẵn, từ danh bạ doanh nghiệp của bạn, và từ các nhà cung cấp danh tính người tiêu dùng như Google và Facebook.</p>
-<p>Hai thành phần sau đây tạo nên Amazon Cognito. Chúng hoạt động độc lập hoặc kết hợp với nhau, tùy thuộc vào nhu cầu truy cập của người dùng của bạn.</p>
-<p><img src="/images/00035.png?featherlight=false&amp;width=5pc" alt="Cognito"></p>
-<h4 id="user-pool">User Pool</h4>
-<p>Tạo một user pool khi bạn muốn xác thực và ủy quyền người dùng cho ứng dụng hoặc API của mình. User pools là một thư mục người dùng với cả hai tính năng tự phục vụ và quản lý, tạo người dùng do quản trị viên thực hiện. User pool của bạn có thể là một thư mục độc lập và nhà cung cấp danh tính OIDC (IdP), cũng như là một nhà cung cấp dịch vụ trung gian (SP) cho các nhà cung cấp bên thứ ba về danh tính người lao động và khách hàng. Các IdP SAML 2.0 và OIDC của tổ chức bạn đưa danh tính người lao động vào Cognito và ứng dụng của bạn. Các kho lưu trữ danh tính OAuth 2.0 công cộng như Amazon, Google, Apple và Facebook đưa danh tính khách hàng vào.</p>
-<p>User pools không yêu cầu tích hợp với một identity pool. Từ một user pool, bạn có thể phát hành trực tiếp token web JSON đã xác thực (JWTs) đến một ứng dụng, máy chủ web, hoặc API.</p>
-<p><img src="/images/00036.png?featherlight=false&amp;width=60pc" alt="Cognito"></p>
-<h4 id="identity-pools">Identity pools</h4>
-<p>Thiết lập một identity pool Amazon Cognito khi bạn muốn cấp quyền truy cập vào tài nguyên AWS cho người dùng đã xác thực hoặc ẩn danh. Identity pool cấp phép chứng chỉ AWS cho ứng dụng của bạn để phục vụ tài nguyên cho người dùng. Bạn có thể xác thực người dùng bằng một nhà cung cấp danh tính đáng tin cậy, như một user pool hoặc dịch vụ SAML 2.0. Nó cũng có thể tùy chọn cấp phép chứng chỉ cho khách vãng lai. Identity pool sử dụng cả kiểm soát truy cập dựa trên vai trò và dựa trên thuộc tính để quản lý quyền truy cập của người dùng vào tài nguyên AWS của bạn.</p>
-<p><img src="/images/00037.png?featherlight=false&amp;width=60pc" alt="Cognito"></p>
+
+	<h4 id="cài-đặt-môi-trường-cognito">Cài Đặt Môi Trường Cognito</h4>
+<ol>
+<li>Tạo file <strong>app/.env.local</strong> cho app1 và app2 với nội dung sau:</li>
+</ol>
+<pre tabindex="0"><code>REACT_APP_USERPOOL_ID=YOUR_USER_POOL_ID
+REACT_APP_CLIENT_ID=YOUR_CLIENT_ID
+</code></pre><p><img src="/images/00016.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="2">
+<li>Sử dụng Create React App để thiết lập quy trình phát triển:
+<ul>
+<li>Các bước tiếp theo sẽ quen thuộc.</li>
+</ul>
+</li>
+<li>Cài đặt và khởi chạy web1 trên cổng 3000:</li>
+</ol>
+<pre tabindex="0"><code>cd app
+npm install --force
+npm start
+</code></pre><p>Lưu ý: Đối với MacBook, điều chỉnh file package.json trong thư mục app như sau:</p>
+<pre tabindex="0"><code>&#34;scripts&#34;: {
+  &#34;start&#34;: &#34;PORT=3000 &amp;&amp; react-scripts start&#34;,
+  ...
+},
+</code></pre><p><img src="/images/00017.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="4">
+<li>Cài đặt và khởi chạy web2:</li>
+</ol>
+<pre tabindex="0"><code>cd app2
+npm install --force
+npm start
+</code></pre><p><img src="/images/00018.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="5">
+<li>
+<p>Sau khi khởi tạo ứng dụng web 1. Bạn truy cập vào web1 qua <strong>localhost:3000</strong></p>
+<ul>
+<li>Sau đó, bạn thực hiện đăng nhập, chọn <strong>SIGN IN WEB1</strong></li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/00029.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="6">
+<li>Trong giao diện đăng nhập vào web1 , nếu bạn chưa có tài khoản thì chọn <strong>Register a new account</strong>. Nếu đã có tài khoản thì điền đầy đủ thông tin và chọn <strong>SIGN IN</strong></li>
+</ol>
+<p><img src="/images/00030.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="7">
+<li>Đăng nhập thành công, giao diện giống như hình.</li>
+</ol>
+<p><img src="/images/00031.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="8">
+<li>
+<p>Sau đó truy cập vào web2 qua địa chỉ <strong>localhost:3001</strong></p>
+<ul>
+<li>Bạn sẽ bất ngờ vì không cần đăng nhập vào thấy giao diện web2.</li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/00032.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol>
+<li>Quay lại giao diện web1 và thực hiện đăng xuất bằng cách chọn <strong>SIGN OUT WEB1</strong></li>
+</ol>
+<p><img src="/images/00033.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+<ol start="10">
+<li>Bạn thực hiện tải lại trang web2 thì không xem được giao diện web2 nữa.</li>
+</ol>
+<p><img src="/images/00034.png?featherlight=false&amp;width=90pc" alt="Cognito"></p>
+
+
+
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -454,6 +554,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -469,6 +570,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -506,8 +610,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/vi/3-note-code/" title="Giải thích code"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/vi/1-intro/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/vi/5-cleanup/" title="Dọn dẹp tài nguyên" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -545,4 +651,3 @@
 </script>
   </body>
 </html>
-

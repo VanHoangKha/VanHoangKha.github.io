@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Triển khai AWS Cognito Cross Sites :: AWS Cognito Cross Site</title>
+    <title>Dọn dẹp tài nguyên :: AWS Cognito Cross Site</title>
 
     
     <link href="/css/nucleus.css?1700703656" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/">
+  <body class="" data-url="/vi/5-cleanup/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -187,8 +187,8 @@
   
     
     <li data-nav-id="/vi/5-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/vi/5-cleanup/">
@@ -267,23 +267,11 @@
               
               
                   
-                    
-                    
-                      <option id="en" value="/">English</option>
-                    
-                  
-              
-                  
-              
-          
-              
-              
-                  
               
                   
                     
                     
-                      <option id="vi" value="/vi/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/5-cleanup/" selected>Tiếng Việt</option>
                     
                   
               
@@ -344,34 +332,101 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Triển khai AWS Cognito Cross Sites</a> > Dọn dẹp tài nguyên
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              Dọn dẹp tài nguyên
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="triển-khai-aws-cognito-cross-sites">Triển khai AWS Cognito Cross Sites</h1>
-<h4 id="giới-thiệu-cognito">Giới thiệu Cognito</h4>
-<p>Amazon Cognito là một nền tảng xác thực danh tính cho các ứng dụng web và di động. Nó bao gồm một danh bạ người dùng, một máy chủ xác thực, và một dịch vụ ủy quyền cho token truy cập OAuth 2.0 và thông tin xác thực AWS. Với Amazon Cognito, bạn có thể xác thực và ủy quyền người dùng từ danh bạ người dùng tích hợp sẵn, từ danh bạ doanh nghiệp của bạn, và từ các nhà cung cấp danh tính người tiêu dùng như Google và Facebook.</p>
-<p>Hai thành phần sau đây tạo nên Amazon Cognito. Chúng hoạt động độc lập hoặc kết hợp với nhau, tùy thuộc vào nhu cầu truy cập của người dùng của bạn.</p>
-<p><img src="/images/00035.png?featherlight=false&amp;width=5pc" alt="Cognito"></p>
-<h4 id="user-pool">User Pool</h4>
-<p>Tạo một user pool khi bạn muốn xác thực và ủy quyền người dùng cho ứng dụng hoặc API của mình. User pools là một thư mục người dùng với cả hai tính năng tự phục vụ và quản lý, tạo người dùng do quản trị viên thực hiện. User pool của bạn có thể là một thư mục độc lập và nhà cung cấp danh tính OIDC (IdP), cũng như là một nhà cung cấp dịch vụ trung gian (SP) cho các nhà cung cấp bên thứ ba về danh tính người lao động và khách hàng. Các IdP SAML 2.0 và OIDC của tổ chức bạn đưa danh tính người lao động vào Cognito và ứng dụng của bạn. Các kho lưu trữ danh tính OAuth 2.0 công cộng như Amazon, Google, Apple và Facebook đưa danh tính khách hàng vào.</p>
-<p>User pools không yêu cầu tích hợp với một identity pool. Từ một user pool, bạn có thể phát hành trực tiếp token web JSON đã xác thực (JWTs) đến một ứng dụng, máy chủ web, hoặc API.</p>
-<p><img src="/images/00036.png?featherlight=false&amp;width=60pc" alt="Cognito"></p>
-<h4 id="identity-pools">Identity pools</h4>
-<p>Thiết lập một identity pool Amazon Cognito khi bạn muốn cấp quyền truy cập vào tài nguyên AWS cho người dùng đã xác thực hoặc ẩn danh. Identity pool cấp phép chứng chỉ AWS cho ứng dụng của bạn để phục vụ tài nguyên cho người dùng. Bạn có thể xác thực người dùng bằng một nhà cung cấp danh tính đáng tin cậy, như một user pool hoặc dịch vụ SAML 2.0. Nó cũng có thể tùy chọn cấp phép chứng chỉ cho khách vãng lai. Identity pool sử dụng cả kiểm soát truy cập dựa trên vai trò và dựa trên thuộc tính để quản lý quyền truy cập của người dùng vào tài nguyên AWS của bạn.</p>
-<p><img src="/images/00037.png?featherlight=false&amp;width=60pc" alt="Cognito"></p>
+
+	<h5 id="dọn-dẹp-tài-nguyên">Dọn dẹp tài nguyên</h5>
+<p>Để xóa các tài nguyên được triển khai thông qua AWS Cloud Development Kit (CDK), bạn cần sử dụng lệnh cdk destroy trong dự án CDK của mình. Dưới đây là các bước cơ bản để thực hiện điều này:</p>
+<ol>
+<li>Mở Terminal hoặc Command Prompt: Mở một cửa sổ terminal hoặc command prompt trên máy của bạn.</li>
+<li>Di chuyển đến thư mục dự án CDK: Sử dụng lệnh cd để di chuyển đến thư mục chứa dự án CDK của bạn.</li>
+</ol>
+<pre tabindex="0"><code>cd path/to/your/cdk/project
+</code></pre><ol start="3">
+<li>Chạy lệnh cdk destroy: Khi bạn đã trong thư mục dự án, sử dụng lệnh cdk destroy để xóa các tài nguyên. Lệnh này sẽ liệt kê tất cả các tài nguyên sẽ bị xóa và yêu cầu xác nhận từ bạn trước khi tiếp tục.</li>
+</ol>
+<pre tabindex="0"><code>cdk destroy
+</code></pre><ol start="4">
+<li>
+<p>Xác nhận việc xóa tài nguyên: Khi được yêu cầu, bạn cần xác nhận rằng bạn muốn xóa các tài nguyên. Điều này thường đòi hỏi việc nhập &ldquo;y&rdquo; hoặc &ldquo;yes&rdquo;.</p>
+</li>
+<li>
+<p>Đợi quá trình hoàn tất: AWS CDK sẽ tiến hành xóa các tài nguyên. Quá trình này có thể mất vài phút tùy thuộc vào số lượng và loại tài nguyên đang được xóa.</p>
+</li>
+</ol>
+<p>Lưu ý rằng việc sử dụng cdk destroy sẽ xóa tất cả các tài nguyên được quản lý bởi stack CDK mà bạn đang làm việc. Đảm bảo rằng bạn không còn cần đến các tài nguyên này trước khi tiến hành xóa.</p>
+
+
+
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -470,6 +525,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -486,6 +542,9 @@
             
                 
                     
+                        
+                        
+                    
                 
                 
 
@@ -506,8 +565,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/vi/4-app-configuration/" title="Triển khai và kiểm tra Cognito Cross Sites"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/vi/1-intro/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/vi/6-useful-references/" title="Tài liệu tham khảo" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -545,4 +606,3 @@
 </script>
   </body>
 </html>
-
